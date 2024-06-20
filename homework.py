@@ -36,7 +36,8 @@ HOMEWORK_VERDICTS = {
 }
 
 # Формат записи для хендлера
-_log_format = '%(asctime)s, %(levelname)s, %(message)s, %(name)s'
+# Добавил func_name, а для чего добавлять str для не понял
+_log_format = '%(asctime)s, %(levelname)s, %(funcName)s, %(message)s, %(name)s'
 
 
 def get_file_handler():
