@@ -4,7 +4,7 @@ import logging
 import os
 import sys
 import time
-import telebot
+import telebot  # type: ignore
 from http import HTTPStatus
 
 import requests  # type: ignore
@@ -41,8 +41,8 @@ _log_format = '%(asctime)s, %(levelname)s, %(message)s, %(name)s'
 
 def get_file_handler():
     """Хендлер для записи логов в файл."""
-    file_handler = logging.FileHandler('program.log')
-    file_handler.setLevel(logging.WARNING)
+    file_handler = logging.FileHandler('program.log', 'w', encoding='utf-8')
+    file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(logging.Formatter(_log_format))
     return file_handler
 
@@ -196,10 +196,11 @@ def main():
 
             else:
                 homework = response.get('homeworks')[0]
+                message = parse_status(homework)
                 # Я так и не понял, нужно ли сравнивать что-то.
-                if parse_status(homework) != last_message:
-                    send_message(bot, parse_status(homework))
-                last_message = parse_status(homework)
+                if message != last_message:
+                    send_message(bot, message)
+                last_message = message
 
             timestamp = response['current_date']
 
