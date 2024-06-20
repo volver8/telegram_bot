@@ -154,7 +154,7 @@ def main():
 
     # Создаем начало отсчета для format_date
     timestamp = int(datetime.datetime(2024, 6, 10, 0, 0, 0, 0).timestamp())
-    
+
     # Переменная для проверки изменения статуса
     last_status = None
 
