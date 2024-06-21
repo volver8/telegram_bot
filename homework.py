@@ -54,7 +54,7 @@ def get_stream_handler():
     """Хендлер StreamHandler."""
     stream_handler = logging.StreamHandler(sys.stdout)
     stream_handler.setLevel(logging.INFO)
-    stream_handler.setFormatter(logging.Formatter(log_format))
+    stream_handler.setFormatter(logging.Formatter(_log_format))
     return stream_handler
 
 
