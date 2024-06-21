@@ -35,8 +35,14 @@ HOMEWORK_VERDICTS = {
 }
 
 # Формат записи для хендлера
-_log_format = ('%(asctime)s, %(levelname)s, %(funcName)s, %(lineno)d '
-               + '%(message)s, %(name)s')
+_log_format = (
+    '%(asctime)s '
+    '%(levelname)s '
+    '%(funcName)s '
+    '%(lineno)d '
+    '%(message)s '
+    '%(name)s'
+)
 
 
 def get_file_handler():
@@ -103,8 +109,9 @@ def get_api_answer(timestamp):
     else:
         if response.status_code != HTTPStatus.OK:
             raise StatusCodeException(
-                'Status code отличен от 200!'
-                'Status_code: ', response.status_code, response.reason
+                f"Status code отличен от {HTTPStatus.OK}!"
+                f"Status_code: {response.status_code}"
+                f"{response.reason}"
             )
         logger.debug('Запрос к API успешно отправлен.')
         return response.json()
@@ -167,7 +174,7 @@ def main():
     bot = TeleBot(token=TELEGRAM_TOKEN)
 
     # Создаем начало отсчета для format_date
-    timestamp = int(datetime.datetime(2024, 6, 10, 0, 0, 0, 0).timestamp())
+    timestamp = int(datetime.datetime(2024, 6, 17, 0, 0, 0, 0).timestamp())
 
     # Начальные переменные для проверки
     last_message = None
