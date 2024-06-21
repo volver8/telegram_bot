@@ -36,7 +36,10 @@ HOMEWORK_VERDICTS = {
 
 # Формат записи для хендлера
 # Добавил lineno
-_log_format = '%(asctime)s, %(levelname)s, %(funcName)s,%(lineno)d, %(message)s, %(name)s'
+# _log_format получился длинным, есть более лучший способ исправить это?
+format_1 = '%(asctime)s, %(levelname)s, %(funcName)s, %(lineno)d, %(message)s'
+format_2 = '%(name)s'
+_log_format = format_1 + format_2
 
 
 def get_file_handler():
@@ -51,7 +54,7 @@ def get_stream_handler():
     """Хендлер StreamHandler."""
     stream_handler = logging.StreamHandler(sys.stdout)
     stream_handler.setLevel(logging.INFO)
-    stream_handler.setFormatter(logging.Formatter(_log_format))
+    stream_handler.setFormatter(logging.Formatter(log_format))
     return stream_handler
 
 
