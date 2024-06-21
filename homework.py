@@ -35,11 +35,8 @@ HOMEWORK_VERDICTS = {
 }
 
 # Формат записи для хендлера
-# Добавил lineno
-# _log_format получился длинным, есть более лучший способ исправить это?
-format_1 = '%(asctime)s, %(levelname)s, %(funcName)s, %(lineno)d, %(message)s'
-format_2 = '%(name)s'
-_log_format = format_1 + format_2
+_log_format = ('%(asctime)s, %(levelname)s, %(funcName)s, %(lineno)d '
+               + '%(message)s, %(name)s')
 
 
 def get_file_handler():
@@ -77,7 +74,7 @@ def check_tokens():
     for token in SOURCE:
         if not globals()[token]:
             missing_tokens.append(token)
-    if len(missing_tokens) != 0:
+    if missing_tokens:
         logger.critical(f'Отсутвует токены: {missing_tokens}!')
         sys.exit(1)
 
@@ -107,7 +104,7 @@ def get_api_answer(timestamp):
         if response.status_code != HTTPStatus.OK:
             raise StatusCodeException(
                 'Status code отличен от 200!'
-                'Status_code: ', response.reason
+                'Status_code: ', response.status_code, response.reason
             )
         logger.debug('Запрос к API успешно отправлен.')
         return response.json()
@@ -179,13 +176,13 @@ def main():
         try:
             response = get_api_answer(timestamp)
             check_response(response)
-            homeworks = response.get('homeworks')
+            homeworks = response['homeworks']
 
-            if homeworks is None:
+            if not homeworks:
                 logger.debug('Список с домашками пуст.')
 
             else:
-                homework = response.get('homeworks')[0]
+                homework = homeworks[0]
                 message = parse_status(homework)
                 send_message(bot, message)
                 last_message = message
